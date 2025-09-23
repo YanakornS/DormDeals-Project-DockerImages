@@ -1,0 +1,82 @@
+
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    container_name: dormdeal-mongodb-dev
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: dormdeal
+    volumes:
+      - mongodb_dev_data:/data/db
+    networks:
+      - dormdeal-dev-network
+
+  # Backend API (Development mode with hot reload)
+  backend-dev:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: dormdeal-backend-dev
+    restart: unless-stopped
+    ports:
+      - "5001:5000"
+    env_file:
+      - ./backend/.env
+    # Comment out depends_on if using external MongoDB Atlas
+    # depends_on:
+    #   - mongodb
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    command: npm run dev
+    networks:
+      - dormdeal-dev-network
+
+  # Frontend React App (Development mode with hot reload)
+  frontend-dev:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: dormdeal-frontend-dev
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend-dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev
+    networks:
+      - dormdeal-dev-network
+
+  # Redis for session management
+  redis:
+    image: redis:7-alpine
+    container_name: dormdeal-redis-dev
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_dev_data:/data
+    networks:
+      - dormdeal-dev-network
+
+volumes:
+  mongodb_dev_data:
+    driver: local
+  redis_dev_data:
+    driver: local
+
+networks:
+  dormdeal-dev-network:
+    driver: bridge

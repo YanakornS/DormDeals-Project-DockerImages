@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap");
+@import "tailwindcss";
+@plugin "daisyui";
+
+@theme {
+  --font-family: "Kanit", serif;
+  --color-vivid: #0096ff;
+  --color-secondary: #9b9b9b;
+  --color-card: #f6f6f6;
+  --color-black: #000000;
+  --color-white: #ffffff;
+
+  --text-xs: 14px;
+  --text-sm: 16px;
+  --text-base: 18px;
+  --text-lg: 22px;
+  --text-xl: 24px;
+}
+
+body {
+  font-family: var(--font-family), sans-serif;
+  font-size: 18px; /* กำหนด font-size หลักเท่ากับ --text-base */
+  color: var(--base-content);
+  background-color: var(--base-100);
+}
+
+.section-container {
+  @apply max-w-screen 2xl:px-78 mx-auto xl:px-24 px-4 bg-base-100 text-base-content;
+}
+
+.section-container-add-products {
+  @apply max-w-screen-lg mx-auto lg:px-14 px-4 bg-base-100 text-base-content;
+}
+
+@layer components {
+  .btn-sign {
+    @apply rounded-xl border border-vivid py-2 px-4 text-center text-sm transition-all text-vivid hover:text-white hover:bg-vivid hover:border-vivid cursor-pointer;
+  }
+
+  .btn-choices {
+    @apply rounded-xl border border-vivid w-56 p-2 text-center transition-all text-vivid hover:text-white hover:bg-vivid hover:border-vivid cursor-pointer;
+  }
+
+  .categories-card {
+    @apply flex justify-between shadow-lg rounded-xl px-4 py-2 transition-all hover:shadow-xl hover:scale-105 cursor-pointer overflow-hidden text-base font-semibold  truncate text-wrap text-start;
+  }
+
+  .products-card {
+    @apply flex flex-auto flex-col gap-2 p-4 text-sm h-32 rounded-b-md;
+  }
+
+  .btn-profile {
+    @apply rounded-xl  bg-vivid py-2 px-4 text-center text-sm transition-all text-white cursor-pointer;
+  }
+
+  .btn-report {
+    @apply flex items-center bg-vivid text-white px-4 py-2 rounded-lg border border-blue-500 cursor-pointer;
+  }
+
+  .btn-checkpost {
+    @apply rounded-xl border border-vivid py-2 px-4 text-center text-sm transition-all text-vivid hover:text-white hover:bg-vivid hover:border-vivid cursor-pointer;
+  }
+}
+
+.bg-white {
+  background-color: var(--color-white);
+}
