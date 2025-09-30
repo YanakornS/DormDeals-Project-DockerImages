@@ -43,7 +43,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/dormdeals-project:backend
-            ghcr.io/${{ github.repository_owner }}/dormdeals-project:backend
+            ghcr.io/yanakorns/dormdeals-project:backend
 
 
   build-and-push-frontend:
@@ -75,5 +75,5 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/dormdeals-project:frontend
-            ghcr.io/${{ github.repository_owner }}/dormdeals-project:frontend
+            ghcr.io/yanakorns/dormdeals-project:frontend
 
