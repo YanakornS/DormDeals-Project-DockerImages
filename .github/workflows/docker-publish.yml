@@ -10,20 +10,14 @@ on:
     branches:
       - main
 
-env:
-  BACKEND_IMAGE_NAME: dormdeals-project-backend
-  FRONTEND_IMAGE_NAME: dormdeals-project-frontend
-
 jobs:
-  build-and_push_backend:
+  build-and-push-backend:
     name: Build and Push Backend
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-buildx-action@v3
 
       - name: Log in to Docker Hub
         if: github.event_name != 'pull_request'
@@ -32,30 +26,21 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE_NAME }}
-
-      - name: Build and push Docker image
+      - name: Build and push backend image
         uses: docker/build-push-action@v5
         with:
           context: ./backend
           file: ./backend/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/dormdeals-project:backend
 
-  build_and_push_frontend:
+  build-and-push-frontend:
     name: Build and Push Frontend
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-buildx-action@v3
 
       - name: Log in to Docker Hub
         if: github.event_name != 'pull_request'
@@ -64,17 +49,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.FRONTEND_IMAGE_NAME }}
-
-      - name: Build and push Docker image
+      - name: Build and push frontend image
         uses: docker/build-push-action@v5
         with:
           context: ./frontend
           file: ./frontend/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/dormdeals-project:frontend
