@@ -45,6 +45,7 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/dormdeals-project:backend
             ghcr.io/${{ github.repository_owner }}/dormdeals-project:backend
 
+
   build-and-push-frontend:
     runs-on: ubuntu-latest
     steps:
@@ -75,3 +76,4 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/dormdeals-project:frontend
             ghcr.io/${{ github.repository_owner }}/dormdeals-project:frontend
+
