@@ -15,6 +15,7 @@
 - [การใช้งานจริง](#-การใช้งานจริง)
 - [แก้ไขปัญหา](#-แก้ไขปัญหา)
 - [การมีส่วนร่วม](#-การมีส่วนร่วม)
+- [DockerHub Images](#-dockerhub-images)
 
 ## ✨ ฟีเจอร์
 
@@ -114,6 +115,10 @@ Dormdeal-Project/
 - **Development**: `dormdeal-backend:dev`, `dormdeal-frontend:dev`
 - **Production**: `dormdeal-backend:latest`, `dormdeal-frontend:latest`
 
+### ใช้ Docker Images ที่สร้างไว้แล้ว
+
+ดูคู่มือการใช้ Docker images ที่สร้างไว้แล้วได้ที่ [README.Docker.md](README.Docker.md)
+
 ## 🚀 เริ่มต้นใช้งาน
 
 ### สิ่งที่ต้องมีก่อน
@@ -149,7 +154,7 @@ Dormdeal-Project/
 
 สร้างไฟล์ `.env` ในโฟลเดอร์ `backend/`:
 
-```env
+```
 # การกำหนดค่าเซิร์ฟเวอร์
 NODE_ENV=development
 PORT=5000
@@ -183,7 +188,7 @@ EASYSLIP_API_KEY=your_easyslip_key
 
 สร้างไฟล์ `.env` ในโฟลเดอร์ `frontend/`:
 
-```env
+```
 # การกำหนดค่า API
 VITE_BASE_URL=http://localhost:5001/api/v1
 VITE_SOCKET_URL=http://localhost:5001
@@ -388,6 +393,36 @@ docker system info
 - **นักพัฒนา**: ทีม Dormdeal
 - **ประเภทโครงการ**: วิชาการ/เชิงพาณิชย์
 - **เวอร์ชัน**: 1.0.0
+
+## 🐳 DockerHub Images
+
+Docker images สำหรับโปรเจกต์นี้มีให้ใช้งานผ่าน DockerHub:
+
+- Backend: `your-dockerhub-username/dormdeals-project-backend:latest`
+- Frontend: `your-dockerhub-username/dormdeals-project-frontend:latest`
+
+### ดึง Docker Images
+
+```bash
+docker pull your-dockerhub-username/dormdeals-project-backend:latest
+docker pull your-dockerhub-username/dormdeals-project-frontend:latest
+```
+
+### ใช้งานผ่าน Docker Compose
+
+1. สร้างไฟล์ `.env` ที่ระดับ root ของโปรเจกต์:
+
+```env
+DOCKERHUB_USERNAME=your-dockerhub-username
+```
+
+2. รันด้วยคำสั่ง:
+
+```
+docker-compose -f docker-compose.prod.yml up -d
+```
+
+ดูข้อมูลเพิ่มเติมเกี่ยวกับการตั้งค่า DockerHub ได้ที่ [DOCKERHUB.md](DOCKERHUB.md)
 
 ## 🆘 การสนับสนุน
 

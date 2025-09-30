@@ -1,0 +1,45 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ steps.get_version.outputs.VERSION }}
+          body: |
+            ## Release ${{ steps.get_version.outputs.VERSION }}
+            
+            Docker images for this release have been published to DockerHub:
+            - Backend: `${{ secrets.DOCKERHUB_USERNAME }}/dormdeals-project-backend:${{ steps.get_version.outputs.VERSION }}`
+            - Frontend: `${{ secrets.DOCKERHUB_USERNAME }}/dormdeals-project-frontend:${{ steps.get_version.outputs.VERSION }}`
+            
+            ### Pull Images
+            ```bash
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/dormdeals-project-backend:${{ steps.get_version.outputs.VERSION }}
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/dormdeals-project-frontend:${{ steps.get_version.outputs.VERSION }}
+            ```
+            
+            ### Run with Docker Compose
+            ```bash
+            docker-compose up -d
+            ```
+          draft: false
+          prerelease: false
