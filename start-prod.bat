@@ -10,8 +10,8 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo Building and starting production containers...
-docker-compose up --build -d
+echo Building and starting production containers (using docker-compose.prod.yml)...
+docker-compose -f docker-compose.prod.yml up --build -d
 
 echo.
 echo Services started successfully!

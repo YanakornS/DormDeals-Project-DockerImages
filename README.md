@@ -240,7 +240,18 @@ GET    /api/v1/chatroom
 GET    /api/v1/admin
 POST   /api/v1/admin
 ```
+##  การจำลอง NetWork
+สำหรับคนที่ไม่มีไฟล์ docker-compose.prod.yml สามารถรัน containers ได้โดยตรงด้วยคำสั่ง docker run เลย ผมจะแสดงวิธีการรัน:สร้าง network ก่อน (เพื่อให้ containers สื่อสารกันได้):
 
+docker network create dormdeal-network
+# รัน backend container:
+docker run -d --name dormdeal-backend --network dormdeal-network -p 5001:5000 -e NODE_ENV=production -e PORT=5000 -e BASE_URL=http://localhost:5173 -e DB_URL=mongodb+srv://YanakornS:0924077286Yan@cluster0.1adb7.mongodb.net/dormdeals -e SECRET=dormdeals-jwt -e FIREBASE_TYPE=service_account -e FIREBASE_PROJECT_ID=loykratongse-85138 -e FIREBASE_PRIVATE_KEY_ID=9068f41863fdce142a00aa2f10f5cecd3795db38 -e FIREBASE_CLIENT_EMAIL=firebase-adminsdk-4t0ct@loykratongse-85138.iam.gserviceaccount.com -e CLOUDINARY_CLOUD_NAME=duytgvohc -e CLOUDINARY_API_KEY=572125628685289 -e CLOUDINARY_API_SECRET=EoWUXw1Td_HkvSilEMxwpQMwhZA -e REQUIREDAMOUNT_PROMPTPAY_QR=110 -e EXPECTEDNAMEENG_PROMPTPAY_QR="MR. ANGKAN B" -e EASYSLIP_API_KEY=876968cd-d643-473b-b438-078bafcf1a45 yanakorns/dormdeals-project:backend
+# รัน frontend container:
+docker run -d --name dormdeal-frontend --network dormdeal-network -p 5173:80 -e NODE_ENV=production -e VITE_BASE_URL=http://localhost:5001 -e VITE_APIKEY=AIzaSyAu-O8EQV34VULclN2E7v9YYL94x7sKZqw -e VITE_AUTHDOMAIN=loykratongse-85138.firebaseapp.com -e VITE_PROJECTID=loykratongse-85138 -e VITE_STORAGEBUCKET=loykratongse-85138.appspot.com -e VITE_MESSAGINGSENDERID=369720830262 -e VITE_APPID=1:369720830262:web:86bc3b01b415c6d70deb97 -e VITE_MEASUREMENTID=G-HSTS7J875M yanakorns/dormdeals-project:frontend
+เรียบร้อยแล้ว! ตอนนี้แอพพลิเคชันควรจะทำงานได้ที่:
+
+Frontend: http://localhost:5173
+Backend: http://localhost:5001
 ## 👨‍💻 การพัฒนา
 
 ### โหมดการพัฒนา
