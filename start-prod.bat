@@ -10,12 +10,12 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo Building and starting production containers (using docker-compose.prod.yml)...
+echo Building and starting production containers...
 docker-compose -f docker-compose.prod.yml up --build -d
 
 echo.
 echo Services started successfully!
-echo Frontend: http://localhost
+echo Frontend: http://localhost:5173
 echo Backend API: http://localhost:5001
 echo MongoDB: localhost:27017
 echo.
